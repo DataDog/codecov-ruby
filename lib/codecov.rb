@@ -392,8 +392,8 @@ class SimpleCov::Formatter::Codecov
       }
     )
     response = retry_request(req, https)
-    if !response&.code || response.code == '400'
-      puts response&.body&.red
+    if !response || !response.code || response.code == '400'
+      puts response.body.red if response && response.body
       return false
     end
 
@@ -449,7 +449,7 @@ class SimpleCov::Formatter::Codecov
     )
     req.body = report
     res = retry_request(req, https)
-    res&.body
+    res.body if res
   end
 
   def handle_report_response(report)
